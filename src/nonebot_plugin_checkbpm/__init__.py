@@ -20,7 +20,7 @@ __plugin_meta__ = PluginMetadata(
     homepage="https://github.com/Ant1816/nonebot-plugin-checkbpm",
     extra={
             "author": "Ant1",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "priority": 10,
     },
 )

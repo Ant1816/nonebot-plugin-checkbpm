@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-checkbpm"
-version = "1.0.1"
+version = "1.0.2"
 description = "基于Librosa的音频文件BPM计算器 通过上传到群文件方式计算音频文件的bpm值（beat per minute）"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -23,8 +23,7 @@ dependencies = [
   "nonebot2>=2.3.1",
   "nonebot-adapter-onebot>=2.1.0",
   "librosa>=0.9.1",
-  "numpy>=1.0",
-  "llvmlite>=0.39.0",
+  "numpy>=2.0.2",
 ]
 
 [project.optional-dependencies]
