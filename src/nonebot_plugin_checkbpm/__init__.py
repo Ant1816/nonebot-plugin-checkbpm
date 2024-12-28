@@ -1,6 +1,12 @@
 import librosa
 import nonebot
+import httpx
 import numpy as np
+
+from pathlib import Path
+from nonebot import require
+require("nonebot_plugin_localstore")
+import nonebot_plugin_localstore as store
 
 from nonebot import on_command
 from nonebot.params import ArgPlainText
@@ -20,10 +26,12 @@ __plugin_meta__ = PluginMetadata(
     homepage="https://github.com/Ant1816/nonebot-plugin-checkbpm",
     extra={
             "author": "Ant1",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "priority": 10,
     },
 )
+
+plugin_data_dir: Path = store.get_plugin_data_dir()
 
 help_ = nonebot.on_command("bpm help", priority=10, block=True)
 
@@ -64,11 +72,15 @@ async def handle_bpmcheck_message(bot: Bot, event: MessageEvent, arg: Message = 
         for file in files:
             if file.get('file_name') == file_name:
                 url_dict = await bot.get_group_file_url(group_id=int(group_id), file_id=str(file.get('file_id')), busid=int(file.get('busid')))
-                url = str(url_dict.get('url')).replace('%20', '+')[8:]  # 切片去除file://
+                url = str(url_dict.get('url'))
+                #  url = url.replace('%20', '+')[8:]  # 切片去除file://
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(url)
+                    with open(str(plugin_data_dir)+file_name, 'wb') as f:
+                        f.write(response.content)
                 await bpmcheck.send("已找到文件，载入文件中...")
-                tempo = await process_audio(url)
+                tempo = await process_audio(str(plugin_data_dir)+file_name)
                 await bpmcheck.finish(f"{file_name}的bpm值为：{int(tempo[0])}({tempo[0]})")
-
         await bpmcheck.finish(f"未找到文件{file_name},请确认您已发送文件后再使用此指令")
     else:
         await bpmcheck.finish("暂时仅支持群聊中的文件操作。")
