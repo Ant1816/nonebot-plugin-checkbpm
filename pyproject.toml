@@ -1,0 +1,36 @@
+[project]
+name = "nonebot-plugin-checkbpm"
+version = "1.0.0"
+description = "基于Librosa的音频文件BPM计算器 通过上传到群文件方式计算音频文件的bpm值（beat per minute）"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+keywords = ["nonebot2", "bpm", "music"]
+authors = [
+  {email = "glz15757339816@gmail.com"},
+  {name = "Ant1"}
+]
+maintainers = [
+  {name = "Ant1", email = "glz15757339816@gmail.com"}
+]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python :: 3.12"
+]
+
+dependencies = [
+  "nonebot2>=2.3.1",
+  "nonebot-adapter-onebot>=2.1.0",
+  "librosa>=0.9.1",
+  "numpy>=1.0",
+]
+
+[project.optional-dependencies]
+test = []
+
+[project.urls]
+homepage = "https://github.com/Ant1816/nonebot-plugin-checkbpm"
+documentation = "https://github.com/Ant1816/nonebot-plugin-checkbpm/blob/master/README.md"
+repository = "https://github.com/Ant1816/nonebot-plugin-checkbpm"
+changelog = "https://github.com/Ant1816/nonebot-plugin-checkbpm/commits/master/"
