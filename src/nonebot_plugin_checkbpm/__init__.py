@@ -28,7 +28,7 @@ __plugin_meta__ = PluginMetadata(
     homepage="https://github.com/Ant1816/nonebot-plugin-checkbpm",
     extra={
         "author": "Ant1",
-        "version": "1.0.6",
+        "version": "1.0.7",
         "priority": 10,
     },
 )
@@ -47,6 +47,8 @@ def process_audio(local_path: Path):
         return tempo_
     except Exception as e:
         raise RuntimeError(f"音频分析失败{e},请确保加载的音频为标准音乐，文件后缀符合要求")
+    finally:
+        local_path.unlink(missing_ok=True)
 
 
 @help_.handle()
@@ -96,5 +98,3 @@ async def handle_bpmcheck_message(bot: Bot, event: MessageEvent, arg: Message = 
         pass
     except Exception as e:
         await bpmcheck.finish(f"处理失败: {e}")
-    finally:
-        file_path.unlink(missing_ok=True)
