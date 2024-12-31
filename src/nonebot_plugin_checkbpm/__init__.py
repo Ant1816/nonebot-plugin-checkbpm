@@ -28,12 +28,12 @@ __plugin_meta__ = PluginMetadata(
     homepage="https://github.com/Ant1816/nonebot-plugin-checkbpm",
     extra={
         "author": "Ant1",
-        "version": "1.0.5",
+        "version": "1.0.6",
         "priority": 10,
     },
 )
 
-cache_dir: Path = store.get_cache_dir("nonebot_plugin_checkbpm")
+cache_dir: Path = store.get_plugin_cache_dir()
 
 help_ = nonebot.on_command("bpm help", priority=10, block=True)
 bpmcheck = nonebot.on_command("bpmcheck", aliases={"bpm计算", "checkbpm", "bpm检查"}, priority=10, block=True)
@@ -89,7 +89,6 @@ async def handle_bpmcheck_message(bot: Bot, event: MessageEvent, arg: Message = 
                 await bpmcheck.send("已找到文件，载入文件中...")
                 # 使用线程池异步运行音频处理函数
                 tempo = await asyncio.to_thread(lambda: process_audio(file_path))
-                file_path.unlink(missing_ok=True)
 
                 await bpmcheck.finish(f"{file_name} 的BPM值为：{int(tempo)}({tempo})")
         await bpmcheck.finish(f"未找到文件 {file_name}，请确认您已发送文件后再使用此指令")
@@ -97,3 +96,5 @@ async def handle_bpmcheck_message(bot: Bot, event: MessageEvent, arg: Message = 
         pass
     except Exception as e:
         await bpmcheck.finish(f"处理失败: {e}")
+    finally:
+        file_path.unlink(missing_ok=True)
